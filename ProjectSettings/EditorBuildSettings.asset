@@ -179,6 +179,15 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Anchors/TestAnchors.unity
     guid: 59827dbbb0f3741848771ee28a1081d3
+  - enabled: 1
+    path: Assets/Scenes/MainMenu.unity
+    guid: ccff3cd4f29f2d44aa26b89435f91c43
+  - enabled: 1
+    path: Assets/Scenes/LoadingScene.unity
+    guid: 7c1275ce7d96170498c65daa0c4c6bd3
+  - enabled: 1
+    path: Assets/Scenes/ARScene.unity
+    guid: 7abf2a9ee8e29b1428e914b31169a796
   m_configObjects:
     Unity.XR.WindowsMR.Settings: {fileID: 11400000, guid: c52d3bb36b4c86f47af54ab9c7a02589,
       type: 2}
