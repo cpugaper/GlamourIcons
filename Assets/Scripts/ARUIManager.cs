@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.XR.ARFoundation;
+
 
 public class ARUIManager : MonoBehaviour
 {
@@ -17,21 +17,17 @@ public class ARUIManager : MonoBehaviour
 
         volumeSlider.onValueChanged.AddListener(UpdateVolume);
         settingsButton.onClick.AddListener(ToggleSettingsPanel);
-        homeButton.onClick.AddListener(ReturnToMainMenu);
         returnButton.onClick.AddListener(ToggleSettingsPanel);
+        homeButton.onClick.AddListener(ReturnToMainMenu);
 
         settingsPanel.SetActive(false);
     }
 
     public void ToggleSettingsPanel()
     {
-        if (settingsPanel != null)
-        {
-            settingsPanel.SetActive(!settingsPanel.activeSelf);
-
-            // Pause game
-            Time.timeScale = settingsPanel.activeSelf ? 0 : 1;
-        }
+        bool isActive = !settingsPanel.activeSelf;
+        settingsPanel.SetActive(isActive);
+        Time.timeScale = isActive ? 0 : 1;
     }
 
     private void UpdateVolume(float value)
