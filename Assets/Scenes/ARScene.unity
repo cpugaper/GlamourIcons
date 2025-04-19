@@ -1080,7 +1080,7 @@ MonoBehaviour:
   - imageName: PizzaDough
     ingredientPrefab: {fileID: 919132149155446097, guid: 9d95ff2987813f741a75220df0f14482,
       type: 3}
-    spawnScale: 0.5
+    spawnScale: 0.1
   - imageName: Tomato
     ingredientPrefab: {fileID: 919132149155446097, guid: 6b65d68409c9b2d4794d79feec203c74,
       type: 3}
@@ -1096,11 +1096,11 @@ MonoBehaviour:
   - imageName: Mushroom
     ingredientPrefab: {fileID: 919132149155446097, guid: e70a61de68c5487428eb17af861f9033,
       type: 3}
-    spawnScale: 0.5
+    spawnScale: 2
   - imageName: CornSeed
     ingredientPrefab: {fileID: 919132149155446097, guid: 4c01461455a4dc74d993eaec85c9f45a,
       type: 3}
-    spawnScale: 0.5
+    spawnScale: 2
 --- !u!4 &956503573
 Transform:
   m_ObjectHideFlags: 0
@@ -1110,7 +1110,7 @@ Transform:
   m_GameObject: {fileID: 956503571}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.30890867, y: -0.035936147, z: -0.28201267}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
