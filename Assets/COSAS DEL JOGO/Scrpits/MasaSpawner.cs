@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using UnityEngine.UI;
 
 public class PizzaSpawner : MonoBehaviour
 {
@@ -14,10 +15,15 @@ public class PizzaSpawner : MonoBehaviour
     [SerializeField] private GameObject pizzaBasePrefab;
     [SerializeField] private float minPlaneSize = 0.4f;
     [SerializeField] private float pizzaLifetime = 60f;
+    [SerializeField] private float pizzaScale = 0.3f;
+
+    [Header("UI Settings")]
+    [SerializeField] private Text timerText; 
 
     private GameObject currentPizzaBase;
     private bool canSpawnPizza = true;
     private List<ARRaycastHit> raycastHits = new List<ARRaycastHit>();
+    private float remainingTime;
 
     private void Awake()
     {
@@ -31,6 +37,15 @@ public class PizzaSpawner : MonoBehaviour
         else
         {
             Debug.LogError("XR Origin (Mobile AR) not found in Scene");
+        }
+    }
+
+    private void Update()
+    {
+        if (!canSpawnPizza && currentPizzaBase != null)
+        {
+            remainingTime -= Time.deltaTime;
+            UpdateTimerDisplay();
         }
     }
 
@@ -60,9 +75,13 @@ public class PizzaSpawner : MonoBehaviour
                 Pose hitPose = hit.pose;
                 currentPizzaBase = Instantiate(pizzaBasePrefab, hitPose.position, hitPose.rotation);
                 currentPizzaBase.transform.up = hit.pose.up;
+                currentPizzaBase.transform.localScale = Vector3.one * pizzaScale;
 
                 canSpawnPizza = false;
+                remainingTime = pizzaLifetime;
                 StartCoroutine(DestroyPizzaAfterTime(pizzaLifetime));
+
+                DisablePlaneVisualization();
 
                 Debug.Log("Masa de pizza creada. Se destruirá en " + pizzaLifetime + " segundos");
             }
@@ -74,6 +93,34 @@ public class PizzaSpawner : MonoBehaviour
         else
         {
             Debug.Log("No se detectó superficie plana");
+        }
+    }
+
+    private void UpdateTimerDisplay()
+    {
+        if (timerText != null)
+        {
+            timerText.text = $"Pizza time: {Mathf.CeilToInt(remainingTime)}s";
+        }
+    }
+
+    private void DisablePlaneVisualization()
+    {
+        if (planeManager == null) return;
+
+        foreach (var plane in planeManager.trackables)
+        {
+            var visualizer = plane.GetComponent<ARPlaneMeshVisualizer>();
+            if (visualizer != null)
+            {
+                visualizer.enabled = false;
+            }
+
+            var collider = plane.GetComponent<MeshCollider>();
+            if (collider != null)
+            {
+                collider.enabled = false;
+            }
         }
     }
 
@@ -95,6 +142,12 @@ public class PizzaSpawner : MonoBehaviour
         }
 
         canSpawnPizza = true;
+
+        if (timerText != null)
+        {
+            timerText.text = ""; 
+        }
+
         Debug.Log("Masa de pizza destruida. Puedes crear una nueva");
     }
 }
