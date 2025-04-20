@@ -80,6 +80,7 @@ public class PizzaSpawner : MonoBehaviour
 
                 canSpawnPizza = false;
                 remainingTime = pizzaLifetime;
+                UpdateTimerDisplay();
                 StartCoroutine(DestroyPizzaAfterTime(pizzaLifetime));
 
                 DisablePlaneVisualization();
