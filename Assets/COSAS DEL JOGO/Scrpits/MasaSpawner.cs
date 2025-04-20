@@ -15,7 +15,7 @@ public class PizzaSpawner : MonoBehaviour
     [Header("Pizza Settings")]
     [SerializeField] private GameObject pizzaBasePrefab;
     [SerializeField] private float minPlaneSize = 0.4f;
-    [SerializeField] private float pizzaLifetime = 15f;
+    [SerializeField] private float pizzaLifetime = 60f;
     [SerializeField] private float pizzaScale = 0.3f;
 
     [Header("UI Settings")]
