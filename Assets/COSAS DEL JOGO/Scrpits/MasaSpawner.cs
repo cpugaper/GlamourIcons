@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.UI;
-using TMPro; 
+using TMPro;
 
 public class PizzaSpawner : MonoBehaviour
 {
@@ -19,7 +19,10 @@ public class PizzaSpawner : MonoBehaviour
     [SerializeField] private float pizzaScale = 0.3f;
 
     [Header("UI Settings")]
-    [SerializeField] private TextMeshProUGUI timerText; 
+    [SerializeField] private TextMeshProUGUI timerText;
+
+    [Header("Order System")]
+    [SerializeField] private OrderManager orderManager;
 
     private GameObject currentPizzaBase;
     private bool canSpawnPizza = true;
@@ -47,6 +50,16 @@ public class PizzaSpawner : MonoBehaviour
         {
             remainingTime -= Time.deltaTime;
             UpdateTimerDisplay();
+
+            if (remainingTime <= 0)
+            {
+                if (orderManager != null)
+                {
+                    orderManager.OnTimerEnded();
+                }
+
+                DestroyCurrentPizza();
+            }
         }
     }
 
@@ -81,9 +94,12 @@ public class PizzaSpawner : MonoBehaviour
                 canSpawnPizza = false;
                 remainingTime = pizzaLifetime;
                 UpdateTimerDisplay();
-                StartCoroutine(DestroyPizzaAfterTime(pizzaLifetime));
-
                 DisablePlaneVisualization();
+
+                if (orderManager != null)
+                {
+                    orderManager.ShowOrderForNewPizza();
+                }
 
                 Debug.Log("Masa de pizza creada. Se destruirá en " + pizzaLifetime + " segundos");
             }
@@ -133,10 +149,8 @@ public class PizzaSpawner : MonoBehaviour
         return plane.size.x >= minPlaneSize && plane.size.y >= minPlaneSize;
     }
 
-    private IEnumerator DestroyPizzaAfterTime(float seconds)
+    private void DestroyCurrentPizza()
     {
-        yield return new WaitForSeconds(seconds);
-
         if (currentPizzaBase != null)
         {
             Destroy(currentPizzaBase);
@@ -147,7 +161,7 @@ public class PizzaSpawner : MonoBehaviour
 
         if (timerText != null)
         {
-            timerText.text = ""; 
+            timerText.text = "";
         }
 
         Debug.Log("Masa de pizza destruida. Puedes crear una nueva");
