@@ -24,7 +24,7 @@ public class PizzaSpawner : MonoBehaviour
     [Header("Order System")]
     [SerializeField] private OrderManager orderManager;
 
-    private GameObject currentPizzaBase;
+    public GameObject currentPizzaBase;
     private bool canSpawnPizza = true;
     private List<ARRaycastHit> raycastHits = new List<ARRaycastHit>();
     private float remainingTime;
@@ -57,8 +57,6 @@ public class PizzaSpawner : MonoBehaviour
                 {
                     orderManager.OnTimerEnded();
                 }
-
-                DestroyCurrentPizza();
             }
         }
     }
@@ -94,12 +92,14 @@ public class PizzaSpawner : MonoBehaviour
                 canSpawnPizza = false;
                 remainingTime = pizzaLifetime;
                 UpdateTimerDisplay();
-                DisablePlaneVisualization();
+                StartCoroutine(DestroyPizzaAfterTime(pizzaLifetime));
 
                 if (orderManager != null)
                 {
                     orderManager.ShowOrderForNewPizza();
                 }
+
+                DisablePlaneVisualization();
 
                 Debug.Log("Masa de pizza creada. Se destruirá en " + pizzaLifetime + " segundos");
             }
@@ -149,8 +149,10 @@ public class PizzaSpawner : MonoBehaviour
         return plane.size.x >= minPlaneSize && plane.size.y >= minPlaneSize;
     }
 
-    private void DestroyCurrentPizza()
+    private IEnumerator DestroyPizzaAfterTime(float seconds)
     {
+        yield return new WaitForSeconds(seconds);
+
         if (currentPizzaBase != null)
         {
             Destroy(currentPizzaBase);

@@ -18,16 +18,6 @@ MonoBehaviour:
     m_Storage: []
   m_Images:
   - m_SerializedGuid:
-      m_GuidLow: 5104846949345721847
-      m_GuidHigh: 6897296434552384435
-    m_SerializedTextureGuid:
-      m_GuidLow: 13764187332430127296
-      m_GuidHigh: 813379103729703288
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
-    m_Name: PizzaDough
-    m_Texture: {fileID: 2800000, guid: fb6de0c03773bf0478d98841fcb3490b, type: 3}
-  - m_SerializedGuid:
       m_GuidLow: 5498156161570071236
       m_GuidHigh: 14818457954380097192
     m_SerializedTextureGuid:
