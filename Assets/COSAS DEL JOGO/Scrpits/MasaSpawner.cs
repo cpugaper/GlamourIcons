@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 using UnityEngine.UI;
+using TMPro; 
 
 public class PizzaSpawner : MonoBehaviour
 {
@@ -14,11 +15,11 @@ public class PizzaSpawner : MonoBehaviour
     [Header("Pizza Settings")]
     [SerializeField] private GameObject pizzaBasePrefab;
     [SerializeField] private float minPlaneSize = 0.4f;
-    [SerializeField] private float pizzaLifetime = 60f;
+    [SerializeField] private float pizzaLifetime = 15f;
     [SerializeField] private float pizzaScale = 0.3f;
 
     [Header("UI Settings")]
-    [SerializeField] private Text timerText; 
+    [SerializeField] private TextMeshProUGUI timerText; 
 
     private GameObject currentPizzaBase;
     private bool canSpawnPizza = true;
