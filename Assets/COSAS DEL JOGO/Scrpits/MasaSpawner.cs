@@ -8,6 +8,8 @@ using TMPro;
 
 public class PizzaSpawner : MonoBehaviour
 {
+    public event System.Action OnPizzaDestroyed;
+
     [Header("AR Components")]
     private ARRaycastManager raycastManager;
     private ARPlaneManager planeManager;
@@ -157,6 +159,8 @@ public class PizzaSpawner : MonoBehaviour
         {
             Destroy(currentPizzaBase);
             currentPizzaBase = null;
+
+            OnPizzaDestroyed?.Invoke();
         }
 
         canSpawnPizza = true;
