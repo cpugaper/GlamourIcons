@@ -9,6 +9,7 @@ using TMPro;
 public class PizzaSpawner : MonoBehaviour
 {
     public event System.Action OnPizzaDestroyed;
+    public event System.Action OnNewPizzaSpawned;
 
     [Header("AR Components")]
     private ARRaycastManager raycastManager;
@@ -100,6 +101,7 @@ public class PizzaSpawner : MonoBehaviour
                 {
                     orderManager.ShowOrderForNewPizza();
                 }
+                OnNewPizzaSpawned?.Invoke();
 
                 DisablePlaneVisualization();
 

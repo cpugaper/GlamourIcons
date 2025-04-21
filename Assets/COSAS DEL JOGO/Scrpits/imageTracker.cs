@@ -49,6 +49,7 @@ public class ImageTracker : MonoBehaviour
         if (pizzaSpawner != null)
         {
             pizzaSpawner.OnPizzaDestroyed += ClearPizzaIngredients;
+            pizzaSpawner.OnNewPizzaSpawned += HandleNewPizza;
         }
         else
         {
@@ -78,6 +79,7 @@ public class ImageTracker : MonoBehaviour
         if (pizzaSpawner != null)
         {
             pizzaSpawner.OnPizzaDestroyed -= ClearPizzaIngredients;
+            pizzaSpawner.OnNewPizzaSpawned -= HandleNewPizza;
         }
     }
 
@@ -221,6 +223,17 @@ public class ImageTracker : MonoBehaviour
         Debug.Log("Todos los ingredientes de la pizza han sido eliminados");
     }
 
+    private void HandleNewPizza()
+    {
+        foreach (var trackedImage in trackedImageManager.trackables)
+        {
+            if (trackedImage.trackingState == TrackingState.Tracking)
+            {
+                CheckPizzaProximity(trackedImage);
+            }
+        }
+    }
+
     public IngredientMapping GetMappingByName(string imageName)
     {
         foreach (var mapping in ingredientMappings)
@@ -252,6 +265,6 @@ public class ImageTracker : MonoBehaviour
         }
 
         referenceIngredients.Clear();
-        pizzaIngredients.Clear();
+        ClearPizzaIngredients();
     }
 }
