@@ -634,10 +634,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc1562bb1004ba54f853b23636b71710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  button: {fileID: 0}
-  blinkSpeed: 1.5
+  button: {fileID: 2111299086}
+  pulseSpeed: 2
   minAlpha: 0.3
   maxAlpha: 1
+  maxAlphaHoldTime: 1
 --- !u!1 &234804440
 GameObject:
   m_ObjectHideFlags: 0
