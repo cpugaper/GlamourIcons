@@ -1490,23 +1490,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ingredientMappings:
   - imageName: Tomato
-    visualReferencePrefab: {fileID: 919132149155446097, guid: 239b74486ecc3a64fa5e274cd947623f,
+    visualReferencePrefab: {fileID: 3713895454149422343, guid: b9715f1b204d95745967b9633f13344d,
       type: 3}
     spawnScale: 0.5
   - imageName: Bacon
-    visualReferencePrefab: {fileID: 919132149155446097, guid: 19e3cc2e2777dfc44a2b2f87fe129e82,
+    visualReferencePrefab: {fileID: 5475755330570006858, guid: ca1840b70db032344909d9fd569dc5c3,
       type: 3}
     spawnScale: 0.5
   - imageName: Cheese
-    visualReferencePrefab: {fileID: 919132149155446097, guid: 89e298cd0832f234a80c756a05b5ff7b,
+    visualReferencePrefab: {fileID: 7356786206849162500, guid: 9a2d952be2c095e478a225d35f917865,
       type: 3}
     spawnScale: 0.5
   - imageName: Mushroom
-    visualReferencePrefab: {fileID: 919132149155446097, guid: e70a61de68c5487428eb17af861f9033,
+    visualReferencePrefab: {fileID: 4087722454778242717, guid: 0c03884b7d32d95448623271c1d2183e,
       type: 3}
     spawnScale: 2
   - imageName: CornSeed
-    visualReferencePrefab: {fileID: 919132149155446097, guid: 4c01461455a4dc74d993eaec85c9f45a,
+    visualReferencePrefab: {fileID: 2565370895844478084, guid: 2c54ad391fc93d243834c099c49783b2,
       type: 3}
     spawnScale: 2
   ingredientSpawnHeight: 0.02
