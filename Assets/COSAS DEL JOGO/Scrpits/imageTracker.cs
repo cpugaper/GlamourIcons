@@ -88,7 +88,7 @@ public class ImageTracker : MonoBehaviour
             HandleTrackedImage(trackedImage);
         }
 
-        foreach (ARTrackedImage trackedImage in eventArgs.added)
+        foreach (ARTrackedImage trackedImage in eventArgs.updated)
         {
             if (trackedImage.trackingState == TrackingState.Tracking)
             {
