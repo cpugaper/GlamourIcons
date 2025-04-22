@@ -52,6 +52,15 @@ public class OrderManager : MonoBehaviour
         {
             orderPanel.anchoredPosition = hiddenPosition;
         }
+
+        GameData.PizzaApprovals.Clear();
+
+        if (availableOrders.Count == 0)
+        {
+            Debug.LogError("No pizza orders configured in Order Manager!");
+            return;
+        }
+        orderPanel.anchoredPosition = hiddenPosition;
     }
 
     public void ShowOrderForNewPizza()
@@ -186,21 +195,20 @@ public class OrderManager : MonoBehaviour
     {
         if (currentOrder == null || !orderActive) return;
 
-        // Obtener ingredientes detectados
         List<string> currentIngredients = GetCurrentIngredients();
 
-        // Validar pizza
-        bool approved = false;
-        if (validationManager != null)
-        {
-            approved = validationManager.ValidatePizza(
+        // 1) Validamos
+        bool approved = validationManager != null
+            && validationManager.ValidatePizza(
                 currentOrder.orderName,
                 currentOrder.requiredIngredients,
                 currentIngredients
             );
-        }
 
-        // Si quieres puntuar SOLO las aprobadas:
+        // 2) Guardamos en GameData
+        GameData.PizzaApprovals.Add(approved);
+
+        // 3) Puntuar sólo si está aprobada
         if (approved && ScoreManager.Instance != null)
         {
             ScoreManager.Instance.OrderCompleted(
@@ -210,7 +218,6 @@ public class OrderManager : MonoBehaviour
         }
         else if (!approved)
         {
-            // Feedback extra si falló
             Debug.Log($"Pizza {currentOrder.orderName} no cumple con el 65% mínimo.");
         }
 
@@ -221,6 +228,7 @@ public class OrderManager : MonoBehaviour
             Invoke("ShowNextRandomOrder", 1.5f);
         }
     }
+
 
     // Método para obtener ingredientes actuales (este método debe ser llamado desde ImageTracker)
     public void SetCurrentIngredients(List<string> ingredients)
