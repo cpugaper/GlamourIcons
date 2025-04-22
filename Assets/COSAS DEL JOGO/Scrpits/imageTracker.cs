@@ -21,8 +21,12 @@ public class ImageTracker : MonoBehaviour
     [SerializeField] private float ingredientSpawnHeight = 0.02f;
     [SerializeField] private float detectionRadius = 0.15f;
 
+    [Header("Periodic Placement Settings")]
+    [SerializeField] private float ingredientPlacementCooldown = 5f;
+
     private readonly Dictionary<string, GameObject> referenceIngredients = new Dictionary<string, GameObject>();
-    private readonly Dictionary<string, GameObject> pizzaIngredients = new Dictionary<string, GameObject>();
+    private readonly Dictionary<string, List<GameObject>> pizzaIngredients = new Dictionary<string, List<GameObject>>();
+    private readonly Dictionary<string, float> lastPlacementTimes = new Dictionary<string, float>();
 
     private PizzaSpawner pizzaSpawner;
 
@@ -167,17 +171,24 @@ public class ImageTracker : MonoBehaviour
         if (pizzaSpawner == null || pizzaSpawner.currentPizzaBase == null) return;
         string imageName = trackedImage.referenceImage.name;
 
-        if (pizzaIngredients.ContainsKey(imageName))
-        {
-            return;
-        }
-
         float distance = Vector3.Distance(trackedImage.transform.position, pizzaSpawner.currentPizzaBase.transform.position);
 
         if (distance <= detectionRadius)
         {
-            SpawnIngredientOnPizza(imageName);
-            Debug.Log($"Ingrediente {imageName} añadido a la pizza");
+            float currentTime = Time.time;
+
+            if (!pizzaIngredients.ContainsKey(imageName))
+            {
+                pizzaIngredients[imageName] = new List<GameObject>();
+                lastPlacementTimes[imageName] = 0f;
+            }
+
+            if (currentTime - lastPlacementTimes[imageName] >= ingredientPlacementCooldown)
+            {
+                SpawnIngredientOnPizza(imageName);
+                lastPlacementTimes[imageName] = currentTime;
+                Debug.Log($"Ingrediente {imageName} añadido a la pizza. Total: {pizzaIngredients[imageName].Count}");
+            }
         }
     }
 
@@ -187,8 +198,11 @@ public class ImageTracker : MonoBehaviour
         if (mapping == null || mapping.visualReferencePrefab == null || pizzaSpawner.currentPizzaBase == null)
             return;
 
+        float pizzaRadius = 0.15f;
+        Vector2 randomOffset = Random.insideUnitCircle * pizzaRadius;
         Vector3 spawnPosition = pizzaSpawner.currentPizzaBase.transform.position +
-                              (Vector3.up * ingredientSpawnHeight);
+                              (Vector3.up * ingredientSpawnHeight) +
+                              new Vector3(randomOffset.x, 0, randomOffset.y);
 
         GameObject newIngredient = Instantiate(
             mapping.visualReferencePrefab,
@@ -198,7 +212,7 @@ public class ImageTracker : MonoBehaviour
         );
 
         newIngredient.transform.localScale = Vector3.one * mapping.spawnScale;
-        pizzaIngredients.Add(imageName, newIngredient);
+        pizzaIngredients[imageName].Add(newIngredient);
     }
 
     private void DeactivateReferenceIngredient(string imageName)
@@ -211,15 +225,19 @@ public class ImageTracker : MonoBehaviour
 
     private void ClearPizzaIngredients()
     {
-        foreach (var ingredient in pizzaIngredients.Values)
+        foreach (var ingredientList in pizzaIngredients.Values)
         {
-            if (ingredient != null)
+            foreach (var ingredient in ingredientList)
             {
-                Destroy(ingredient);
+                if (ingredient != null)
+                {
+                    Destroy(ingredient);
+                }
             }
         }
 
         pizzaIngredients.Clear();
+        lastPlacementTimes.Clear();
         Debug.Log("Todos los ingredientes de la pizza han sido eliminados");
     }
 
@@ -256,15 +274,6 @@ public class ImageTracker : MonoBehaviour
             }
         }
 
-        foreach (var ingredient in pizzaIngredients.Values)
-        {
-            if (ingredient != null)
-            {
-                Destroy(ingredient);
-            }
-        }
-
-        referenceIngredients.Clear();
         ClearPizzaIngredients();
     }
 }
