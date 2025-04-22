@@ -1669,7 +1669,7 @@ MonoBehaviour:
   - imageName: Bacon
     visualReferencePrefab: {fileID: 5475755330570006858, guid: ca1840b70db032344909d9fd569dc5c3,
       type: 3}
-    spawnScale: 0.5
+    spawnScale: 0.4
   - imageName: Cheese
     visualReferencePrefab: {fileID: 7356786206849162500, guid: 9a2d952be2c095e478a225d35f917865,
       type: 3}
@@ -1677,7 +1677,7 @@ MonoBehaviour:
   - imageName: Mushroom
     visualReferencePrefab: {fileID: 4087722454778242717, guid: 0c03884b7d32d95448623271c1d2183e,
       type: 3}
-    spawnScale: 2
+    spawnScale: 1
   - imageName: Corn
     visualReferencePrefab: {fileID: 2565370895844478084, guid: 2c54ad391fc93d243834c099c49783b2,
       type: 3}
@@ -3290,7 +3290,7 @@ MonoBehaviour:
       m_Calls: []
   m_SerializedLibrary: {fileID: 11400000, guid: c3b8ea03ed5c8a5418ac23ef1ccc2444,
     type: 2}
-  m_MaxNumberOfMovingImages: 6
+  m_MaxNumberOfMovingImages: 5
   m_TrackedImagePrefab: {fileID: 0}
 --- !u!1 &2061819400
 GameObject:

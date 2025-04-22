@@ -43,6 +43,19 @@ public class ImageTracker : MonoBehaviour
                 trackedImageManager = xrOrigin.AddComponent<ARTrackedImageManager>();
                 Debug.LogWarning("Se ha añadido un ARTrackedImageManager a XR Origin");
             }
+
+            if (trackedImageManager.referenceLibrary == null ||
+                trackedImageManager.referenceLibrary.count == 0)
+            {
+                Debug.LogError("La librería de imágenes de referencia no está configurada o está vacía");
+            }
+            else
+            {
+                Debug.Log($"Librería de imágenes cargada con {trackedImageManager.referenceLibrary.count} imágenes");
+            }
+
+            trackedImageManager.requestedMaxNumberOfMovingImages = 5;
+            trackedImageManager.trackedImagePrefab = null;
         }
         else
         {
