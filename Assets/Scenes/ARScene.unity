@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26de496f74a08df44aa1d4f40826c59f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalTime: 10
+  totalTime: 180
   timerText: {fileID: 28829919}
 --- !u!114 &28829919
 MonoBehaviour:
@@ -1634,12 +1634,14 @@ MonoBehaviour:
     visualReferencePrefab: {fileID: 4087722454778242717, guid: 0c03884b7d32d95448623271c1d2183e,
       type: 3}
     spawnScale: 2
-  - imageName: CornSeed
+  - imageName: Corn
     visualReferencePrefab: {fileID: 2565370895844478084, guid: 2c54ad391fc93d243834c099c49783b2,
       type: 3}
     spawnScale: 2
   ingredientSpawnHeight: 0.02
   detectionRadius: 0.15
+  pointsPerCorrectIngredient: 10
+  pointsPerIncorrectIngredient: -5
 --- !u!4 &956503573
 Transform:
   m_ObjectHideFlags: 0
@@ -2014,22 +2016,76 @@ MonoBehaviour:
   availableOrders:
   - orderName: Beautiful Liar
     pizzaImage: {fileID: 21300000, guid: 10be6f9a0344c9b4882cbf417124ddd0, type: 3}
+    requiredIngredients:
+    - Tomato
+    - Cheese
+    - Cheese
+    - Cheese
+    - Bacon
+    - Bacon
+    - Bacon
   - orderName: Daddy Yankee
     pizzaImage: {fileID: 21300000, guid: a69aef97583d5b142a474f7bae51d467, type: 3}
+    requiredIngredients:
+    - Tomato
+    - Cheese
+    - Cheese
+    - Bacon
+    - Bacon
+    - Corn
   - orderName: Le Pupe
     pizzaImage: {fileID: 21300000, guid: 59d60fa50d86c0542a398c6592e04e36, type: 3}
+    requiredIngredients:
+    - Tomato
+    - Tomato
+    - Cheese
+    - Cheese
+    - Bacon
+    - Bacon
+    - Mushroom
+    - Mushroom
   - orderName: Slay It Darling
     pizzaImage: {fileID: 21300000, guid: 994adb38e4e99b54db256b69f2cffb89, type: 3}
+    requiredIngredients:
+    - Tomato
+    - Cheese
+    - Cheese
+    - Cheese
+    - Cheese
   - orderName: Vegan Fox
     pizzaImage: {fileID: 21300000, guid: 5e7e67209d125aa4f8fa352f004dbd95, type: 3}
+    requiredIngredients:
+    - Tomato
+    - Tomato
+    - Tomato
+    - Mushroom
+    - Mushroom
+    - Corn
+    - Corn
   - orderName: Vegetarian XoXo
     pizzaImage: {fileID: 21300000, guid: 04cdd1f61deb0a5439b4b5f0e5109906, type: 3}
+    requiredIngredients:
+    - Tomato
+    - Cheese
+    - Cheese
+    - Mushroom
+    - Mushroom
   - orderName: What a Freak
     pizzaImage: {fileID: 21300000, guid: df473f9ab88e226478bdc8a63f12636b, type: 3}
+    requiredIngredients:
+    - Cheese
+    - Cheese
+    - Cheese
+    - Corn
+    - Mushroom
+    - Mushroom
+    - Bacon
   orderPanel: {fileID: 1221142045}
   pizzaOrderImage: {fileID: 1221142047}
   slideInDuration: 0.5
   slideOutDuration: 0.5
+  orderNameText: {fileID: 0}
+  ingredientsText: {fileID: 0}
   hiddenPosition: {x: 815, y: -590}
   visiblePosition: {x: 0, y: -590}
 --- !u!114 &1221142047

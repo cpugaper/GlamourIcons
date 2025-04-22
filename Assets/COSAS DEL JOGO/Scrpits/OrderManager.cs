@@ -11,6 +11,7 @@ public class OrderManager : MonoBehaviour
     {
         public string orderName;
         public Sprite pizzaImage;
+        public List<string> requiredIngredients = new List<string>();  // Lista de nombres de ingredientes necesarios
     }
 
     [Header("Order Settings")]
@@ -19,6 +20,8 @@ public class OrderManager : MonoBehaviour
     [SerializeField] private Image pizzaOrderImage;
     [SerializeField] private float slideInDuration = 0.5f;
     [SerializeField] private float slideOutDuration = 0.3f;
+    [SerializeField] private TextMeshProUGUI orderNameText;
+    [SerializeField] private TextMeshProUGUI ingredientsText;
 
     [Header("Position Settings")]
     [SerializeField] private Vector2 hiddenPosition = new Vector2(300f, 0f);
@@ -27,6 +30,7 @@ public class OrderManager : MonoBehaviour
     private int currentOrderIndex = -1;
     private Coroutine slideCoroutine;
     private bool orderActive = false;
+    private PizzaOrder currentOrder;
 
     private void Start()
     {
@@ -59,11 +63,26 @@ public class OrderManager : MonoBehaviour
         } while (newIndex == currentOrderIndex && availableOrders.Count > 1);
 
         currentOrderIndex = newIndex;
-        PizzaOrder order = availableOrders[currentOrderIndex];
+        currentOrder = availableOrders[currentOrderIndex];
 
         // Update UI elements
         if (pizzaOrderImage != null)
-            pizzaOrderImage.sprite = order.pizzaImage;
+            pizzaOrderImage.sprite = currentOrder.pizzaImage;
+
+        // Update order name if text component exists
+        if (orderNameText != null)
+            orderNameText.text = currentOrder.orderName;
+
+        // Update ingredients list if text component exists
+        if (ingredientsText != null)
+        {
+            string ingredientsList = "Ingredientes necesarios:\n";
+            foreach (string ingredient in currentOrder.requiredIngredients)
+            {
+                ingredientsList += "- " + ingredient + "\n";
+            }
+            ingredientsText.text = ingredientsList;
+        }
 
         // Start slide in animation
         if (slideCoroutine != null)
@@ -108,6 +127,63 @@ public class OrderManager : MonoBehaviour
     public void OnTimerEnded()
     {
         Debug.Log("Timer terminado, ocultando pedido");
+        HideCurrentOrder();
+    }
+
+    // Método para verificar si un ingrediente es parte del pedido actual
+    public bool IsIngredientRequired(string ingredientName)
+    {
+        if (currentOrder == null || !orderActive) return false;
+        return currentOrder.requiredIngredients.Contains(ingredientName);
+    }
+
+    // Método para verificar si todos los ingredientes han sido añadidos
+    public bool AreAllIngredientsAdded(List<string> addedIngredients)
+    {
+        if (currentOrder == null || !orderActive) return false;
+        
+        // Verifica que todos los ingredientes requeridos están en la lista de añadidos
+        foreach (string requiredIngredient in currentOrder.requiredIngredients)
+        {
+            if (!addedIngredients.Contains(requiredIngredient))
+            {
+                return false;
+            }
+        }
+        
+        return true;
+    }
+
+    // Método para obtener los ingredientes necesarios para el pedido actual
+    public List<string> GetRequiredIngredients()
+    {
+        if (currentOrder == null) return new List<string>();
+        return new List<string>(currentOrder.requiredIngredients);
+    }
+
+    // Método para obtener el nombre del pedido actual
+    public string GetCurrentOrderName()
+    {
+        return currentOrder != null ? currentOrder.orderName : "";
+    }
+
+    // Método para verificar si un pedido está activo
+    public bool IsOrderActive()
+    {
+        return orderActive;
+    }
+
+    // Método para notificar que un pedido ha sido completado correctamente
+    public void CompleteOrder()
+    {
+        if (currentOrder == null || !orderActive) return;
+        
+        // Notificar al ScoreManager que el pedido ha sido completado
+        if (ScoreManager.Instance != null)
+        {
+            ScoreManager.Instance.OrderCompleted(currentOrder.orderName, currentOrder.requiredIngredients.Count);
+        }
+        
         HideCurrentOrder();
     }
 }
