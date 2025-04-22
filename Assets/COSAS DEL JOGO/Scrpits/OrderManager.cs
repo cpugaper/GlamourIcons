@@ -23,6 +23,7 @@ public class OrderManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI orderNameText;
     [SerializeField] private TextMeshProUGUI ingredientsText;
 
+
     [Header("Position Settings")]
     [SerializeField] private Vector2 hiddenPosition = new Vector2(300f, 0f);
     [SerializeField] private Vector2 visiblePosition = Vector2.zero;
@@ -31,6 +32,10 @@ public class OrderManager : MonoBehaviour
     private Coroutine slideCoroutine;
     private bool orderActive = false;
     private PizzaOrder currentOrder;
+
+    private int pizzasCompleted = 0;
+    private float gameStartTime;
+    [SerializeField] private int maxPizzasPerGame = 3;
 
     private void Start()
     {
@@ -173,17 +178,93 @@ public class OrderManager : MonoBehaviour
         return orderActive;
     }
 
+    public void RegisterPizzaResult(List<string> addedIngredients)
+    {
+        if (currentOrder == null) return;
+        
+        List<string> correctIngredients = new List<string>();
+        List<string> incorrectIngredients = new List<string>();
+
+        // Contar ingredientes correctos
+        foreach (string ingredient in addedIngredients)
+        {
+            if (currentOrder.requiredIngredients.Contains(ingredient))
+            {
+                correctIngredients.Add(ingredient);
+            }
+            else
+            {
+                incorrectIngredients.Add(ingredient);
+            }
+        }
+        
+        bool completed = AreAllIngredientsAdded(addedIngredients);
+        int pizzaScore = correctIngredients.Count * 10 - incorrectIngredients.Count * 5;
+        if (completed) pizzaScore += 100; // Bonus por completar
+        
+        // Crear y guardar los datos de la pizza
+        PizzaDataManager.PizzaData pizzaData = new PizzaDataManager.PizzaData(
+            currentOrder.orderName,
+            correctIngredients.Count,
+            incorrectIngredients.Count,
+            pizzaScore,
+            completed
+        );
+        
+        // Guardar en PlayerPrefs
+        PizzaDataManager.SavePizzaData(pizzaData, pizzasCompleted);
+        
+        // Incrementar contador de pizzas
+        pizzasCompleted++;
+        
+        // Si hemos alcanzado el límite, ir a la escena de resultados
+        if (pizzasCompleted >= maxPizzasPerGame)
+        {
+            // Guardar tiempo total de juego
+            float gameTime = Time.time - gameStartTime;
+            PizzaDataManager.SaveGameTime(gameTime);
+            
+            // Cargar escena de resultados
+            UnityEngine.SceneManagement.SceneManager.LoadScene("ResultsScene");
+        }
+    }
+
     // Método para notificar que un pedido ha sido completado correctamente
     public void CompleteOrder()
     {
         if (currentOrder == null || !orderActive) return;
         
-        // Notificar al ScoreManager que el pedido ha sido completado
+        // Obtener la lista de ingredientes actuales (debes pasar esto desde ImageTracker)
+        List<string> currentIngredients = GetCurrentIngredients();
+        
+        // Registrar resultados
+        RegisterPizzaResult(currentIngredients);
+        
+        // Notificar al ScoreManager
         if (ScoreManager.Instance != null)
         {
             ScoreManager.Instance.OrderCompleted(currentOrder.orderName, currentOrder.requiredIngredients.Count);
         }
         
         HideCurrentOrder();
+        
+        // Si no hemos terminado, mostrar el siguiente pedido automáticamente
+        if (pizzasCompleted < maxPizzasPerGame)
+        {
+            Invoke("ShowNextRandomOrder", 1.5f);
+        }
+    }
+
+    // Método para obtener ingredientes actuales (este método debe ser llamado desde ImageTracker)
+    public void SetCurrentIngredients(List<string> ingredients)
+    {
+        _currentIngredients = ingredients;
+    }
+
+    private List<string> _currentIngredients = new List<string>();
+
+    private List<string> GetCurrentIngredients()
+    {
+        return _currentIngredients;
     }
 }

@@ -20,14 +20,11 @@ public class ImageTracker : MonoBehaviour
     [SerializeField] private List<IngredientMapping> ingredientMappings = new List<IngredientMapping>();
     [SerializeField] private float ingredientSpawnHeight = 0.02f;
     [SerializeField] private float detectionRadius = 0.15f;
-    [SerializeField] private int pointsPerCorrectIngredient = 10;
-    [SerializeField] private int pointsPerIncorrectIngredient = -5;
 
     private readonly Dictionary<string, GameObject> referenceIngredients = new Dictionary<string, GameObject>();
     private readonly Dictionary<string, GameObject> pizzaIngredients = new Dictionary<string, GameObject>();
 
     private PizzaSpawner pizzaSpawner;
-    private OrderManager orderManager;
 
     private void Awake()
     {
@@ -57,12 +54,6 @@ public class ImageTracker : MonoBehaviour
         else
         {
             Debug.LogError("No se encontro PizzaSpawner en la escena");
-        }
-
-        orderManager = FindAnyObjectByType<OrderManager>();
-        if (orderManager == null)
-        {
-            Debug.LogError("No se encontró OrderManager en la escena");
         }
     }
 
@@ -116,8 +107,8 @@ public class ImageTracker : MonoBehaviour
         {
             DeactivateReferenceIngredient(trackedImage.referenceImage.name);
         }
-    }
 
+    }
     private void HandleTrackedImage(ARTrackedImage trackedImage)
     {
         string imageName = trackedImage.referenceImage.name;
@@ -208,49 +199,6 @@ public class ImageTracker : MonoBehaviour
 
         newIngredient.transform.localScale = Vector3.one * mapping.spawnScale;
         pizzaIngredients.Add(imageName, newIngredient);
-        
-        // Verificar si el ingrediente es parte del pedido actual
-        if (orderManager != null && orderManager.IsOrderActive())
-        {
-            if (orderManager.IsIngredientRequired(imageName))
-            {
-                // Añadir puntos por ingrediente correcto
-                if (ScoreManager.Instance != null)
-                {
-                    ScoreManager.Instance.AddPoints(pointsPerCorrectIngredient);
-                    Debug.Log($"¡Ingrediente correcto ({imageName})! +{pointsPerCorrectIngredient} puntos");
-                }
-            }
-            else
-            {
-                // Restar puntos por ingrediente incorrecto
-                if (ScoreManager.Instance != null && pointsPerIncorrectIngredient != 0)
-                {
-                    ScoreManager.Instance.AddPoints(pointsPerIncorrectIngredient);
-                    Debug.Log($"Ingrediente incorrecto ({imageName}). {pointsPerIncorrectIngredient} puntos");
-                }
-            }
-            
-            // Verificar si todos los ingredientes han sido añadidos
-            CheckCompletedOrder();
-        }
-    }
-
-    private void CheckCompletedOrder()
-    {
-        if (orderManager == null || !orderManager.IsOrderActive()) return;
-        
-        // Obtener la lista de ingredientes añadidos a la pizza
-        List<string> addedIngredients = new List<string>(pizzaIngredients.Keys);
-        
-        // Verificar si se han añadido todos los ingredientes requeridos
-        if (orderManager.AreAllIngredientsAdded(addedIngredients))
-        {
-            Debug.Log("¡Pedido completado correctamente!");
-            
-            // Notificar al OrderManager que se ha completado el pedido
-            orderManager.CompleteOrder();
-        }
     }
 
     private void DeactivateReferenceIngredient(string imageName)

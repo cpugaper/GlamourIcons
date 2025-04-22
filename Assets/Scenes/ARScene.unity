@@ -768,6 +768,118 @@ MonoBehaviour:
   minAlpha: 0.3
   maxAlpha: 1
   maxAlphaHoldTime: 1
+--- !u!1 &147730872
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 147730874}
+  - component: {fileID: 147730873}
+  m_Layer: 0
+  m_Name: PizzaData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &147730873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147730872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 274a269cd3d83ec438794f92ca5381ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &147730874
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 147730872}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 547.3337, y: 1329.288, z: -370.99377}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &212106417
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5431996656828586128, guid: e5e8c79a7fd60764786619ce9a53bb97,
+        type: 3}
+      propertyPath: m_Name
+      value: PizzaReceiptItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 8563918644318984677, guid: e5e8c79a7fd60764786619ce9a53bb97,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 547.3337
+      objectReference: {fileID: 0}
+    - target: {fileID: 8563918644318984677, guid: e5e8c79a7fd60764786619ce9a53bb97,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1329.288
+      objectReference: {fileID: 0}
+    - target: {fileID: 8563918644318984677, guid: e5e8c79a7fd60764786619ce9a53bb97,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -370.99377
+      objectReference: {fileID: 0}
+    - target: {fileID: 8563918644318984677, guid: e5e8c79a7fd60764786619ce9a53bb97,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8563918644318984677, guid: e5e8c79a7fd60764786619ce9a53bb97,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8563918644318984677, guid: e5e8c79a7fd60764786619ce9a53bb97,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8563918644318984677, guid: e5e8c79a7fd60764786619ce9a53bb97,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8563918644318984677, guid: e5e8c79a7fd60764786619ce9a53bb97,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8563918644318984677, guid: e5e8c79a7fd60764786619ce9a53bb97,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8563918644318984677, guid: e5e8c79a7fd60764786619ce9a53bb97,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e5e8c79a7fd60764786619ce9a53bb97, type: 3}
 --- !u!1 &234804440
 GameObject:
   m_ObjectHideFlags: 0
@@ -1640,8 +1752,6 @@ MonoBehaviour:
     spawnScale: 2
   ingredientSpawnHeight: 0.02
   detectionRadius: 0.15
-  pointsPerCorrectIngredient: 10
-  pointsPerIncorrectIngredient: -5
 --- !u!4 &956503573
 Transform:
   m_ObjectHideFlags: 0
@@ -2088,6 +2198,7 @@ MonoBehaviour:
   ingredientsText: {fileID: 0}
   hiddenPosition: {x: 815, y: -590}
   visiblePosition: {x: 0, y: -590}
+  maxPizzasPerGame: 3
 --- !u!114 &1221142047
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3465,3 +3576,5 @@ SceneRoots:
   - {fileID: 1834598754}
   - {fileID: 1019766826}
   - {fileID: 120400122}
+  - {fileID: 147730874}
+  - {fileID: 212106417}
