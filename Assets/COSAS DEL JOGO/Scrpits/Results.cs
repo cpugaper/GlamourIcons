@@ -10,28 +10,23 @@ public class ResultsDisplay : MonoBehaviour
 
     void Start()
     {
-        // Asegurémonos de estar en la escena correcta
         if (SceneManager.GetActiveScene().name != "Results") return;
 
-        // Construimos el texto multilínea
         var sb = new StringBuilder();
-        sb.AppendLine("RESULTADOS FINAL:");
-        int count = GameData.PizzaApprovals.Count;
-        for (int i = 0; i < count; i++)
+        sb.AppendLine("RESULTADOS FINALES");
+        sb.AppendLine($"Puntuación total: {GameData.TotalScore}");
+        sb.AppendLine($"Pedidos completados: {GameData.CompletedOrders}/{GameData.TotalOrders}");
+        sb.AppendLine("---------------------");
+
+        for (int i = 0; i < GameData.TotalOrders; i++)
         {
-            bool ok = GameData.PizzaApprovals[i];
-            string color = ok ? "green" : "red";
-            string word  = ok ? "APROBADO" : "FALLIDO";
-            // usando Rich Text para colorear
-            sb.AppendLine($"{i + 1}. <color={color}>{word}</color>");
-        }
-        // Si por algún motivo hay menos de 3 entradas, podemos rellenar:
-        for (int i = count; i < 3; i++)
-        {
-            sb.AppendLine($"{i + 1}. <color=yellow>NO JUGADA</color>");
+            bool ok = i < GameData.PizzaApprovals.Count ? GameData.PizzaApprovals[i] : false;
+            string status = ok ? "APROBADA" : i < GameData.PizzaApprovals.Count ? "FALLIDA" : "NO JUGADA";
+            string color = ok ? "green" : i < GameData.PizzaApprovals.Count ? "red" : "yellow";
+
+            sb.AppendLine($"Pizza {i + 1}: <color={color}>{status}</color>");
         }
 
-        // Asignamos al TMP
         if (resultsText != null)
         {
             resultsText.richText = true;

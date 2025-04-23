@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class OrderManager : MonoBehaviour
 {
@@ -40,6 +41,9 @@ public class OrderManager : MonoBehaviour
     private float gameStartTime;
     [SerializeField] private int maxPizzasPerGame = 3;
 
+    private List<string> currentAddedIngredients = new List<string>();
+    private int currentPizzaScore = 0;
+
     private void Start()
     {
         if (availableOrders.Count == 0)
@@ -72,7 +76,6 @@ public class OrderManager : MonoBehaviour
     {
         if (availableOrders.Count == 0) return;
 
-        // Select a random order different from the current one
         int newIndex;
         do
         {
@@ -82,15 +85,12 @@ public class OrderManager : MonoBehaviour
         currentOrderIndex = newIndex;
         currentOrder = availableOrders[currentOrderIndex];
 
-        // Update UI elements
         if (pizzaOrderImage != null)
             pizzaOrderImage.sprite = currentOrder.pizzaImage;
 
-        // Update order name if text component exists
         if (orderNameText != null)
             orderNameText.text = currentOrder.orderName;
 
-        // Update ingredients list if text component exists
         if (ingredientsText != null)
         {
             string ingredientsList = "Ingredientes necesarios:\n";
@@ -101,7 +101,6 @@ public class OrderManager : MonoBehaviour
             ingredientsText.text = ingredientsList;
         }
 
-        // Start slide in animation
         if (slideCoroutine != null)
             StopCoroutine(slideCoroutine);
 
@@ -113,7 +112,6 @@ public class OrderManager : MonoBehaviour
     {
         if (!orderActive) return;
 
-        // Start slide out animation
         if (slideCoroutine != null)
             StopCoroutine(slideCoroutine);
 
@@ -131,7 +129,6 @@ public class OrderManager : MonoBehaviour
             elapsedTime = Time.time - startTime;
             float t = Mathf.Clamp01(elapsedTime / duration);
 
-            // Smooth easing
             t = Mathf.SmoothStep(0, 1, t);
 
             orderPanel.anchoredPosition = Vector2.Lerp(from, to, t);
@@ -195,31 +192,38 @@ public class OrderManager : MonoBehaviour
     {
         if (currentOrder == null || !orderActive) return;
 
-        List<string> currentIngredients = GetCurrentIngredients();
+        int correctIngredients = 0;
+        foreach (string ingredient in currentAddedIngredients)
+        {
+            if (currentOrder.requiredIngredients.Contains(ingredient))
+            {
+                correctIngredients++;
+            }
+        }
 
-        // 1) Validamos
-        bool approved = validationManager != null
-            && validationManager.ValidatePizza(
-                currentOrder.orderName,
-                currentOrder.requiredIngredients,
-                currentIngredients
-            );
+        float accuracy = (float)correctIngredients / currentOrder.requiredIngredients.Count;
+        bool approved = accuracy >= 0.65f; 
 
-        // 2) Guardamos en GameData
+        // Guardar resultados
         GameData.PizzaApprovals.Add(approved);
+        GameData.TotalScore += currentPizzaScore;
+        GameData.CompletedOrders++;
 
-        // 3) Puntuar sólo si está aprobada
+        // Asignar puntuación
         if (approved && ScoreManager.Instance != null)
         {
             ScoreManager.Instance.OrderCompleted(
                 currentOrder.orderName,
-                currentOrder.requiredIngredients.Count
+                correctIngredients,
+                currentOrder.requiredIngredients.Count,
+                accuracy
             );
         }
-        else if (!approved)
-        {
-            Debug.Log($"Pizza {currentOrder.orderName} no cumple con el 65% mínimo.");
-        }
+
+        // Resetear para siguiente pizza
+        currentAddedIngredients.Clear();
+        currentPizzaScore = 0;
+        pizzasCompleted++;
 
         HideCurrentOrder();
 
@@ -227,8 +231,29 @@ public class OrderManager : MonoBehaviour
         {
             Invoke("ShowNextRandomOrder", 1.5f);
         }
+        else
+        {
+            SceneManager.LoadScene("Results");
+        }
     }
+    public void AddIngredient(string ingredientName)
+    {
+        if (!currentAddedIngredients.Contains(ingredientName))
+        {
+            currentAddedIngredients.Add(ingredientName);
 
+            if (IsIngredientRequired(ingredientName))
+            {
+                currentPizzaScore += 20; 
+                ScoreManager.Instance?.AddPoints(20, $"Ingrediente correcto: {ingredientName}");
+            }
+            else
+            {
+                currentPizzaScore -= 10; 
+                ScoreManager.Instance?.AddPoints(-10, $"Ingrediente incorrecto: {ingredientName}");
+            }
+        }
+    }
 
     // Método para obtener ingredientes actuales (este método debe ser llamado desde ImageTracker)
     public void SetCurrentIngredients(List<string> ingredients)

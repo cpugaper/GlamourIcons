@@ -17,7 +17,7 @@ public class PizzaSpawner : MonoBehaviour
     [Header("Pizza Settings")]
     [SerializeField] private GameObject pizzaBasePrefab;
     [SerializeField] private float minPlaneSize = 0.4f;
-    [SerializeField] private float pizzaLifetime = 60f;
+    [SerializeField] private float pizzaLifetime = 15f;
     [SerializeField] private float pizzaScale = 0.2f;
 
     [Header("UI Settings")]
@@ -196,19 +196,17 @@ public class PizzaSpawner : MonoBehaviour
 
         if (currentPizzaBase != null)
         {
+            if (orderManager != null && orderManager.IsOrderActive())
+            {
+                orderManager.CompleteOrder();
+            }
+
             Destroy(currentPizzaBase);
             currentPizzaBase = null;
-
             OnPizzaDestroyed?.Invoke();
         }
 
         canSpawnPizza = true;
-
-        if (timerText != null)
-        {
-            timerText.text = "";
-        }
-
-        Debug.Log("Masa de pizza destruida. Puedes crear una nueva");
+        if (timerText != null) timerText.text = "";
     }
 }

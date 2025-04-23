@@ -6,6 +6,7 @@ public class IngredientButton : MonoBehaviour
     [SerializeField] private GameObject ingredientPrefab;
     [SerializeField] private Button button;
     [SerializeField] private PizzaSpawner pizzaSpawner;
+    [SerializeField] private OrderManager orderManager;
 
     private static IngredientButton currentlySelectedButton;
 
@@ -84,6 +85,11 @@ public class IngredientButton : MonoBehaviour
         );
 
         ingredient.transform.localRotation = Quaternion.identity;
+
+        if (orderManager != null)
+        {
+            orderManager.AddIngredient(ingredientPrefab.name);
+        }
 
         return true;
     }

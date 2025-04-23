@@ -169,7 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26de496f74a08df44aa1d4f40826c59f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  totalTime: 180
+  totalTime: 60
   timerText: {fileID: 28829919}
 --- !u!114 &28829919
 MonoBehaviour:
@@ -772,6 +772,7 @@ MonoBehaviour:
     type: 3}
   button: {fileID: 127053171}
   pizzaSpawner: {fileID: 1830052446}
+  orderManager: {fileID: 1221142046}
   selectedColor: {r: 1, g: 0.6084906, b: 0.86799955, a: 1}
 --- !u!114 &127053171
 MonoBehaviour:
@@ -1805,6 +1806,7 @@ MonoBehaviour:
     type: 3}
   button: {fileID: 912904377}
   pizzaSpawner: {fileID: 1830052446}
+  orderManager: {fileID: 1221142046}
   selectedColor: {r: 1, g: 0.6084906, b: 0.86799955, a: 1}
 --- !u!114 &912904377
 MonoBehaviour:
@@ -2024,77 +2026,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 935914694}
   m_CullTransparentMesh: 1
---- !u!1 &956503571
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 956503573}
-  - component: {fileID: 956503572}
-  m_Layer: 0
-  m_Name: ImageTrackManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &956503572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 956503571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 374c5c1fda838c648858f52f977a8ebd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trackedImageManager: {fileID: 0}
-  ingredientMappings:
-  - imageName: Tomato
-    visualReferencePrefab: {fileID: 3713895454149422343, guid: b9715f1b204d95745967b9633f13344d,
-      type: 3}
-    spawnScale: 0.5
-  - imageName: Bacon
-    visualReferencePrefab: {fileID: 5475755330570006858, guid: ca1840b70db032344909d9fd569dc5c3,
-      type: 3}
-    spawnScale: 0.4
-  - imageName: Cheese
-    visualReferencePrefab: {fileID: 7356786206849162500, guid: 9a2d952be2c095e478a225d35f917865,
-      type: 3}
-    spawnScale: 0.5
-  - imageName: Mushroom
-    visualReferencePrefab: {fileID: 4087722454778242717, guid: 0c03884b7d32d95448623271c1d2183e,
-      type: 3}
-    spawnScale: 0.7
-  - imageName: CornSeed
-    visualReferencePrefab: {fileID: 2565370895844478084, guid: 2c54ad391fc93d243834c099c49783b2,
-      type: 3}
-    spawnScale: 2
-  ingredientSpawnHeight: 0.02
-  detectionRadius: 0.15
-  ingredientPlacementCooldown: 5
-  orderManager: {fileID: 0}
-  pizzaSpawner: {fileID: 0}
---- !u!4 &956503573
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 956503571}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1019766823
 GameObject:
   m_ObjectHideFlags: 0
@@ -2697,6 +2628,7 @@ MonoBehaviour:
     type: 3}
   button: {fileID: 1285494445}
   pizzaSpawner: {fileID: 1830052446}
+  orderManager: {fileID: 1221142046}
   selectedColor: {r: 1, g: 0.6084906, b: 0.86799955, a: 1}
 --- !u!114 &1285494445
 MonoBehaviour:
@@ -3197,6 +3129,7 @@ MonoBehaviour:
     type: 3}
   button: {fileID: 1661790625}
   pizzaSpawner: {fileID: 1830052446}
+  orderManager: {fileID: 1221142046}
   selectedColor: {r: 1, g: 0.6084906, b: 0.86799955, a: 1}
 --- !u!114 &1661790625
 MonoBehaviour:
@@ -3660,7 +3593,7 @@ MonoBehaviour:
   pizzaBasePrefab: {fileID: 2137417440540954412, guid: 9d1877e2921f69d48b513f8ac394a1df,
     type: 3}
   minPlaneSize: 0.4
-  pizzaLifetime: 60
+  pizzaLifetime: 15
   pizzaScale: 0.3
   timerText: {fileID: 122503749}
   orderManager: {fileID: 1221142046}
@@ -3791,12 +3724,12 @@ RectTransform:
   - {fileID: 630696814}
   - {fileID: 1221142045}
   - {fileID: 129512283}
-  - {fileID: 1717510880}
   - {fileID: 912904375}
   - {fileID: 1910772246}
   - {fileID: 127053169}
   - {fileID: 1661790623}
   - {fileID: 1285494443}
+  - {fileID: 1717510880}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -3956,6 +3889,7 @@ MonoBehaviour:
     type: 3}
   button: {fileID: 1910772248}
   pizzaSpawner: {fileID: 1830052446}
+  orderManager: {fileID: 1221142046}
   selectedColor: {r: 1, g: 0.6084906, b: 0.86799955, a: 1}
 --- !u!114 &1910772248
 MonoBehaviour:
@@ -4609,7 +4543,6 @@ SceneRoots:
   - {fileID: 2061819402}
   - {fileID: 1980839029}
   - {fileID: 1830052445}
-  - {fileID: 956503573}
   - {fileID: 1834598754}
   - {fileID: 1019766826}
   - {fileID: 120400122}

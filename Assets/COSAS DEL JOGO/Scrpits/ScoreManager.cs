@@ -64,18 +64,34 @@ public class ScoreManager : MonoBehaviour
         ShowFeedback(points > 0 ? "+" + points.ToString() : points.ToString(), points > 0);
     }
 
-    public void OrderCompleted(string orderName, int ingredientCount)
+    public void OrderCompleted(string orderName, int correctIngredients, int totalIngredients, float accuracy)
     {
         completedOrders++;
-        int orderBonus = baseOrderCompletionPoints + (ingredientCount * pointsPerIngredient);
-        
-        score += orderBonus;
+
+        int basePoints = 100;
+        int ingredientBonus = correctIngredients * 20;
+        int accuracyBonus = Mathf.RoundToInt(accuracy * 50); 
+
+        int totalPoints = basePoints + ingredientBonus + accuracyBonus;
+        score += totalPoints;
+
+        GameData.TotalScore = score;
+        GameData.CompletedOrders = completedOrders;
+
+        string message = $"¡{orderName} completada!\n";
+        message += $"+{basePoints} (base)\n";
+        message += $"+{ingredientBonus} ({correctIngredients}/{totalIngredients} ingredientes)\n";
+        message += $"+{accuracyBonus} ({(accuracy * 100):0}% precisión)";
+
+        ShowFeedback(message, true);
         UpdateScoreUI();
-        
-        Debug.Log($"Pedido '{orderName}' completado. +{orderBonus} puntos. Total de pedidos: {completedOrders}");
-        
-        // Mostrar feedback visual específico para completar un pedido
-        ShowFeedback("¡Pedido completado! +" + orderBonus.ToString(), true);
+    }
+
+    public void AddPoints(int points, string reason)
+    {
+        score += points;
+        UpdateScoreUI();
+        ShowFeedback($"{points} puntos: {reason}", points > 0);
     }
 
     private void UpdateScoreUI()

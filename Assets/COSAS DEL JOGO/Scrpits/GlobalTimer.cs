@@ -5,7 +5,7 @@ using TMPro;
 
 public class TimerGlobal : MonoBehaviour
 {
-    public float totalTime = 180f; 
+    public float totalTime = 60f; 
     public TMP_Text timerText;
 
 
