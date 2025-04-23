@@ -1633,7 +1633,7 @@ MonoBehaviour:
   - imageName: Mushroom
     visualReferencePrefab: {fileID: 4087722454778242717, guid: 0c03884b7d32d95448623271c1d2183e,
       type: 3}
-    spawnScale: 0.7
+    spawnScale: 0.5
   - imageName: CornSeed
     visualReferencePrefab: {fileID: 2565370895844478084, guid: 2c54ad391fc93d243834c099c49783b2,
       type: 3}
