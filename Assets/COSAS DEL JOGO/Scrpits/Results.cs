@@ -32,5 +32,23 @@ public class ResultsDisplay : MonoBehaviour
             resultsText.richText = true;
             resultsText.text = sb.ToString();
         }
+
+        for (int i = 0; i < GameData.TotalOrders; i++)
+        {
+            bool ok = i < GameData.PizzaApprovals.Count && GameData.PizzaApprovals[i];
+            // … línea de status …
+            
+            // — NUEVO — ingredientes añadidos:
+            string ingredientes = (i < GameData.IngredientsPerPizza.Count)
+                ? string.Join(", ", GameData.IngredientsPerPizza[i])
+                : "—";
+            sb.AppendLine($"Ingredientes puestos: {ingredientes}");
+        }
+
+        if (resultsText != null)
+        {
+            resultsText.richText = true;
+            resultsText.text = sb.ToString();
+        }
     }
 }

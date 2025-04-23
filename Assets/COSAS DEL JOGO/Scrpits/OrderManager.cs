@@ -5,8 +5,12 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
 
+
 public class OrderManager : MonoBehaviour
 {
+
+    
+    
     [System.Serializable]
     public class PizzaOrder
     {
@@ -235,12 +239,17 @@ public class OrderManager : MonoBehaviour
         {
             SceneManager.LoadScene("Results");
         }
+
+        GameData.IngredientsPerPizza.Add(new List<string>(GameData.CurrentPizzaIngredients));
+        GameData.CurrentPizzaIngredients.Clear();
+
     }
     public void AddIngredient(string ingredientName)
     {
         if (!currentAddedIngredients.Contains(ingredientName))
         {
             currentAddedIngredients.Add(ingredientName);
+            GameData.CurrentPizzaIngredients.Add(ingredientName);   // ← guardar para resultados
 
             if (IsIngredientRequired(ingredientName))
             {
@@ -255,6 +264,7 @@ public class OrderManager : MonoBehaviour
         }
     }
 
+
     // Método para obtener ingredientes actuales (este método debe ser llamado desde ImageTracker)
     public void SetCurrentIngredients(List<string> ingredients)
     {
@@ -266,5 +276,11 @@ public class OrderManager : MonoBehaviour
     private List<string> GetCurrentIngredients()
     {
         return _currentIngredients;
+    }
+
+    
+    public PizzaOrder GetCurrentOrder()
+    {
+        return currentOrder;
     }
 }
