@@ -9,7 +9,6 @@ using TMPro;
 public class PizzaSpawner : MonoBehaviour
 {
     public event System.Action OnPizzaDestroyed;
-    public event System.Action OnNewPizzaSpawned;
 
     [Header("AR Components")]
     private ARRaycastManager raycastManager;
@@ -26,6 +25,9 @@ public class PizzaSpawner : MonoBehaviour
 
     [Header("Order System")]
     [SerializeField] private OrderManager orderManager;
+
+    [Header("Ingredient System")]
+    [SerializeField] private LayerMask pizzaLayerMask;
 
     public GameObject currentPizzaBase;
     private bool canSpawnPizza = true;
@@ -62,6 +64,42 @@ public class PizzaSpawner : MonoBehaviour
                 }
             }
         }
+        HandlePizzaTouch();
+    }
+    private void HandlePizzaTouch()
+    {
+        if (currentPizzaBase == null) return;
+
+        if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(0).position);
+            RaycastHit hit;
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, pizzaLayerMask))
+            {
+                if (hit.collider.gameObject == currentPizzaBase)
+                {
+                    IngredientButton selectedButton = GetSelectedButton();
+                    if (selectedButton != null)
+                    {
+                        selectedButton.TryPlaceIngredient(hit.point, hit.normal);
+                    }
+                }
+            }
+        }
+
+    }
+
+    private IngredientButton GetSelectedButton()
+    {
+        foreach (var button in FindObjectsOfType<IngredientButton>())
+        {
+            if (button.IsSelected())
+            {
+                return button;
+            }
+        }
+        return null;
     }
 
     public void TrySpawnPizza()
@@ -101,7 +139,6 @@ public class PizzaSpawner : MonoBehaviour
                 {
                     orderManager.ShowOrderForNewPizza();
                 }
-                OnNewPizzaSpawned?.Invoke();
 
                 DisablePlaneVisualization();
 

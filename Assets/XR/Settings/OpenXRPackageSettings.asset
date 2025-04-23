@@ -367,16 +367,16 @@ MonoBehaviour:
   - {fileID: -840729104652359036}
   - {fileID: 7556313881549638518}
   - {fileID: 7930990923307746699}
-  - {fileID: 633199196199715490}
-  - {fileID: -7505679118898974012}
+  - {fileID: -849214507032935400}
+  - {fileID: 5789840804326650863}
   - {fileID: -7323858377259845203}
-  - {fileID: -5366424564110265686}
+  - {fileID: -7922441120878650122}
   - {fileID: 7032481137799104357}
-  - {fileID: 6696394819145702929}
-  - {fileID: 6882453901244700233}
+  - {fileID: -1589713133999094658}
+  - {fileID: -2589091030702169456}
   - {fileID: 2042613992770130105}
-  - {fileID: -7460357349458795620}
-  - {fileID: -8284160343827973960}
+  - {fileID: -3751639061014600085}
+  - {fileID: -5509327660117288027}
   - {fileID: 6456907066911905399}
   - {fileID: 7825686016705212628}
   - {fileID: 1038442320976035168}
@@ -853,7 +853,7 @@ MonoBehaviour:
   nameUi: 'Meta Quest: Occlusion'
   version: 0.1.0
   featureIdInternal: com.unity.openxr.feature.arfoundation-meta-occlusion
-  openxrExtensionStrings: XR_META_environment_depth XR_KHR_vulkan_enable
+  openxrExtensionStrings: XR_META_environment_depth
   company: Unity Technologies
   priority: 0
   required: 0
@@ -882,14 +882,14 @@ MonoBehaviour:
   - {fileID: 4859721307576298024}
   - {fileID: -3416010835614318235}
   - {fileID: 4813506467478316222}
-  - {fileID: -5583717022038261086}
+  - {fileID: -2438849359260552081}
   - {fileID: -8935718964888889440}
-  - {fileID: -4873484410967716848}
-  - {fileID: 2146807134263679403}
-  - {fileID: -8096025946876899013}
-  - {fileID: -8128911792636562377}
-  - {fileID: 5898177333619690415}
-  - {fileID: 769042579215680501}
+  - {fileID: -158339578740508157}
+  - {fileID: 6151772354499698599}
+  - {fileID: -7919458928157497654}
+  - {fileID: -4109531691322173326}
+  - {fileID: 6299677241848960563}
+  - {fileID: -7547102972462405743}
   - {fileID: 3852423736043997497}
   - {fileID: -60434473789610540}
   - {fileID: -6722977742578150530}
