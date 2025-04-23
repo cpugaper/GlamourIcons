@@ -89,6 +89,8 @@ public class IngredientButton : MonoBehaviour
         if (orderManager != null)
         {
             orderManager.AddIngredient(ingredientPrefab.name);
+            string ordenActual = OrderManager.Instance.GetCurrentOrderName();
+            Debug.Log($"He puesto '{ingredientPrefab.name}' en la pizza: {ordenActual}");
         }
 
         return true;

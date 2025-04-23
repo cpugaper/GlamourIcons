@@ -9,8 +9,19 @@ using UnityEngine.SceneManagement;
 public class OrderManager : MonoBehaviour
 {
 
-    
-    
+    public static OrderManager Instance { get; private set; }
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+    }
+
+
     [System.Serializable]
     public class PizzaOrder
     {
@@ -69,6 +80,14 @@ public class OrderManager : MonoBehaviour
             return;
         }
         orderPanel.anchoredPosition = hiddenPosition;
+
+        GameData.TotalOrders = maxPizzasPerGame;
+
+        GameData.PizzaApprovals.Clear();
+        GameData.TotalScore = 0;
+        GameData.CompletedOrders = 0;
+        GameData.IngredientsPerPizza.Clear();
+        GameData.CurrentPizzaIngredients.Clear(); 
     }
 
     public void ShowOrderForNewPizza()
@@ -182,7 +201,9 @@ public class OrderManager : MonoBehaviour
     // Método para obtener el nombre del pedido actual
     public string GetCurrentOrderName()
     {
-        return currentOrder != null ? currentOrder.orderName : "";
+        string orderName = currentOrder != null ? currentOrder.orderName : "NINGÚN PEDIDO ACTIVO";
+        Debug.Log($"Obteniendo nombre del pedido actual: {orderName}");
+        return orderName;
     }
 
     // Método para verificar si un pedido está activo
@@ -212,6 +233,12 @@ public class OrderManager : MonoBehaviour
         GameData.PizzaApprovals.Add(approved);
         GameData.TotalScore += currentPizzaScore;
         GameData.CompletedOrders++;
+
+        GameData.IngredientsPerPizza.Add(new List<string>(GameData.CurrentPizzaIngredients));
+        Debug.Log($"[GameData] Guardadas {GameData.CurrentPizzaIngredients.Count} ing. para pizza #{pizzasCompleted + 1}");
+
+        GameData.CurrentPizzaIngredients.Clear();
+        currentAddedIngredients.Clear();
 
         // Asignar puntuación
         if (approved && ScoreManager.Instance != null)
@@ -246,24 +273,20 @@ public class OrderManager : MonoBehaviour
     }
     public void AddIngredient(string ingredientName)
     {
-        if (!currentAddedIngredients.Contains(ingredientName))
+        currentAddedIngredients.Add(ingredientName);
+        GameData.CurrentPizzaIngredients.Add(ingredientName);   // ← guardar para resultados
+        Debug.Log($"[GameData] Ingrediente añadido: {ingredientName} (total actual: {GameData.CurrentPizzaIngredients.Count})");
+        if (IsIngredientRequired(ingredientName))
         {
-            currentAddedIngredients.Add(ingredientName);
-            GameData.CurrentPizzaIngredients.Add(ingredientName);   // ← guardar para resultados
-
-            if (IsIngredientRequired(ingredientName))
-            {
-                currentPizzaScore += 20; 
-                ScoreManager.Instance?.AddPoints(20, $"Ingrediente correcto: {ingredientName}");
-            }
-            else
-            {
+            currentPizzaScore += 20; 
+            ScoreManager.Instance?.AddPoints(20, $"Ingrediente correcto: {ingredientName}");
+        }
+        else
+        {
                 currentPizzaScore -= 10; 
                 ScoreManager.Instance?.AddPoints(-10, $"Ingrediente incorrecto: {ingredientName}");
-            }
         }
     }
-
 
     // Método para obtener ingredientes actuales (este método debe ser llamado desde ImageTracker)
     public void SetCurrentIngredients(List<string> ingredients)

@@ -10,39 +10,33 @@ public class ResultsDisplay : MonoBehaviour
 
     void Start()
     {
+        // Solo en la escena de resultados
         if (SceneManager.GetActiveScene().name != "Results") return;
 
-        var sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder();
         sb.AppendLine("RESULTADOS FINALES");
         sb.AppendLine($"Puntuación total: {GameData.TotalScore}");
         sb.AppendLine($"Pedidos completados: {GameData.CompletedOrders}/{GameData.TotalOrders}");
         sb.AppendLine("---------------------");
 
+        // Recorremos el total de pedidos para mostrar estado e ingredientes
         for (int i = 0; i < GameData.TotalOrders; i++)
         {
-            bool ok = i < GameData.PizzaApprovals.Count ? GameData.PizzaApprovals[i] : false;
-            string status = ok ? "APROBADA" : i < GameData.PizzaApprovals.Count ? "FALLIDA" : "NO JUGADA";
-            string color = ok ? "green" : i < GameData.PizzaApprovals.Count ? "red" : "yellow";
+            bool approved = i < GameData.PizzaApprovals.Count && GameData.PizzaApprovals[i];
+            string status = approved
+                ? "APROBADA"
+                : (i < GameData.PizzaApprovals.Count ? "FALLIDA" : "NO JUGADA");
+            string color = approved
+                ? "green"
+                : (i < GameData.PizzaApprovals.Count ? "red" : "yellow");
 
             sb.AppendLine($"Pizza {i + 1}: <color={color}>{status}</color>");
-        }
 
-        if (resultsText != null)
-        {
-            resultsText.richText = true;
-            resultsText.text = sb.ToString();
-        }
-
-        for (int i = 0; i < GameData.TotalOrders; i++)
-        {
-            bool ok = i < GameData.PizzaApprovals.Count && GameData.PizzaApprovals[i];
-            // … línea de status …
-            
-            // — NUEVO — ingredientes añadidos:
+            // Ingredientes que puso el jugador
             string ingredientes = (i < GameData.IngredientsPerPizza.Count)
                 ? string.Join(", ", GameData.IngredientsPerPizza[i])
                 : "—";
-            sb.AppendLine($"Ingredientes puestos: {ingredientes}");
+            sb.AppendLine($"    Ingredientes puestos: {ingredientes}");
         }
 
         if (resultsText != null)

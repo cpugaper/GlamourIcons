@@ -196,6 +196,7 @@ public class PizzaSpawner : MonoBehaviour
 
         if (currentPizzaBase != null)
         {
+            // Forzar completar pedido cuando se acaba el tiempo
             if (orderManager != null && orderManager.IsOrderActive())
             {
                 orderManager.CompleteOrder();

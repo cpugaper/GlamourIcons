@@ -16,23 +16,26 @@ public class PizzaValidationManager : MonoBehaviour
 
     private List<string> approvedOrders = new List<string>();
 
-    public bool ValidatePizza(string orderName, List<string> required, List<string> actual)
+    public bool ValidatePizza(List<string> actualIngredients)
     {
-        if (required == null || required.Count == 0)
+        // Obtener pedido activo
+        string currentOrderName = OrderManager.Instance.GetCurrentOrderName();
+        List<string> requiredIngredients = OrderManager.Instance.GetRequiredIngredients();
+
+        if (requiredIngredients == null || requiredIngredients.Count == 0)
         {
             Debug.LogWarning("No hay ingredientes requeridos para validar.");
             return false;
         }
 
-        // Conteo de coincidencias
-        int correctCount = required.Intersect(actual).Count();
-        float ratio = (float)correctCount / required.Count;
-
+        // Conteo de ingredientes correctos
+        int correctCount = requiredIngredients.Intersect(actualIngredients).Count();
+        float ratio = (float)correctCount / requiredIngredients.Count;
         bool approved = ratio >= approvalThreshold;
 
-        // Guardar si está aprobado
-        if (approved && !approvedOrders.Contains(orderName))
-            approvedOrders.Add(orderName);
+        // Guardar si está aprobado y no se había guardado antes
+        if (approved && !approvedOrders.Contains(currentOrderName))
+            approvedOrders.Add(currentOrderName);
 
         // Actualizar UI
         if (resultText != null)
@@ -41,7 +44,7 @@ public class PizzaValidationManager : MonoBehaviour
             resultText.color = approved ? Color.green : Color.red;
         }
 
-        Debug.Log($"Pizza '{orderName}': {correctCount}/{required.Count} ({ratio*100:0.0}%) -> {(approved? "APROBADA":"FALLIDA")}");
+        Debug.Log($"Pizza '{currentOrderName}': {correctCount}/{requiredIngredients.Count} ({ratio * 100:0.0}%) -> {(approved ? "APROBADA" : "FALLIDA")}");
         return approved;
     }
 
