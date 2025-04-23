@@ -28,6 +28,7 @@ public class ImageTracker : MonoBehaviour
     private readonly Dictionary<string, List<GameObject>> pizzaIngredients = new Dictionary<string, List<GameObject>>();
     private readonly Dictionary<string, float> lastPlacementTimes = new Dictionary<string, float>();
 
+    private OrderManager orderManager;
     private PizzaSpawner pizzaSpawner;
 
     private void Awake()
@@ -71,6 +72,12 @@ public class ImageTracker : MonoBehaviour
         else
         {
             Debug.LogError("No se encontro PizzaSpawner en la escena");
+        }
+
+        orderManager = FindAnyObjectByType<OrderManager>();
+        if (orderManager == null)
+        {
+            Debug.LogError("No se encontró OrderManager en la escena");
         }
     }
 
@@ -226,6 +233,8 @@ public class ImageTracker : MonoBehaviour
 
         newIngredient.transform.localScale = Vector3.one * mapping.spawnScale;
         pizzaIngredients[imageName].Add(newIngredient);
+
+        UpdateOrderManagerWithCurrentIngredients();
     }
 
     private void DeactivateReferenceIngredient(string imageName)
@@ -262,6 +271,27 @@ public class ImageTracker : MonoBehaviour
             {
                 CheckPizzaProximity(trackedImage);
             }
+        }
+    }
+
+    private void UpdateOrderManagerWithCurrentIngredients()
+    {
+        if (orderManager != null)
+        {
+            List<string> currentIngredients = new List<string>();
+            
+            // Recopila todos los nombres de ingredientes colocados en la pizza
+            foreach (var entry in pizzaIngredients)
+            {
+                if (entry.Value.Count > 0)
+                {
+                    currentIngredients.Add(entry.Key);
+                }
+            }
+            
+            // Actualiza el OrderManager con la lista de ingredientes
+            orderManager.SetCurrentIngredients(currentIngredients);
+            Debug.Log($"Enviados {currentIngredients.Count} ingredientes al OrderManager: {string.Join(", ", currentIngredients)}");
         }
     }
 

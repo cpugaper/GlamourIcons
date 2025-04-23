@@ -2031,7 +2031,7 @@ MonoBehaviour:
     - Cheese
     - Bacon
     - Bacon
-    - Corn
+    - CornLeft
   - orderName: Le Pupe
     pizzaImage: {fileID: 21300000, guid: 59d60fa50d86c0542a398c6592e04e36, type: 3}
     requiredIngredients:
@@ -2059,8 +2059,8 @@ MonoBehaviour:
     - Tomato
     - Mushroom
     - Mushroom
-    - Corn
-    - Corn
+    - CornLeft
+    - CornLeft
   - orderName: Vegetarian XoXo
     pizzaImage: {fileID: 21300000, guid: 04cdd1f61deb0a5439b4b5f0e5109906, type: 3}
     requiredIngredients:
@@ -2075,7 +2075,7 @@ MonoBehaviour:
     - Cheese
     - Cheese
     - Cheese
-    - Corn
+    - CornLeft
     - Mushroom
     - Mushroom
     - Bacon
