@@ -23,8 +23,8 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 13120344765105610161
       m_GuidHigh: 8893304451605072074
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
+    m_Size: {x: 0.0767802, y: 0.1086}
+    m_SpecifySize: 1
     m_Name: Tomato
     m_Texture: {fileID: 2800000, guid: 9ec69db1d40cb614ca0852ad475d6b7b, type: 3}
   - m_SerializedGuid:
@@ -33,8 +33,8 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 5342485470907500841
       m_GuidHigh: 6166508602738627291
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
+    m_Size: {x: 0.0767802, y: 0.1086}
+    m_SpecifySize: 1
     m_Name: Bacon
     m_Texture: {fileID: 2800000, guid: e7208929523a4a24db52a012e7d69355, type: 3}
   - m_SerializedGuid:
@@ -43,8 +43,8 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 6914298848950905685
       m_GuidHigh: 7137653272598677898
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
+    m_Size: {x: 0.0767802, y: 0.1086}
+    m_SpecifySize: 1
     m_Name: Cheese
     m_Texture: {fileID: 2800000, guid: 6a9c6b55862b5ff48a0926a3d5090e63, type: 3}
   - m_SerializedGuid:
@@ -53,8 +53,8 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 8134739156257753924
       m_GuidHigh: 17539521492019507706
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
+    m_Size: {x: 0.0767802, y: 0.1086}
+    m_SpecifySize: 1
     m_Name: Mushroom
     m_Texture: {fileID: 2800000, guid: b5344b44662970e4faf1265edee568f3, type: 3}
   - m_SerializedGuid:
@@ -63,7 +63,7 @@ MonoBehaviour:
     m_SerializedTextureGuid:
       m_GuidLow: 6193832136336107577
       m_GuidHigh: 14366551747685600392
-    m_Size: {x: 0, y: 0}
-    m_SpecifySize: 0
+    m_Size: {x: 0.0767802, y: 0.1086}
+    m_SpecifySize: 1
     m_Name: CornSeed
     m_Texture: {fileID: 2800000, guid: fcb66839e98255f4884c1180b23e60c7, type: 3}
