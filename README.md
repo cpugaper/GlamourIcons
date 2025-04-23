@@ -1,3 +1,5 @@
+# PIZZA GLAMOUR
+
 **Pizza Glamour** es un juego de realidad aumentada donde los jugadores se convierten en glamurosos pizzeros en una carrera contrarreloj. Tu misión es: cocinar tantas pizzas según su receta como puedas, dentro del límite de tiempo. Deberás colocar los ingredientes en la base de pizza que se situará en la superficie que quieras de tu entorno.
 
 ## Características
